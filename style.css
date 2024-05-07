@@ -1,0 +1,23 @@
+body {
+    margin: 0;
+}
+
+h1 {
+    color: white;
+    background-color: yellow;
+    margin-top: 0;
+    padding: 3%;
+}
+
+.header {
+    display: flex;
+}
+
+
+
+/* .playerStats{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+} */
+
