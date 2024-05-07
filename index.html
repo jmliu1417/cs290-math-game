@@ -7,40 +7,61 @@
     <title>Magic Math</title>
 </head>
 <body>
-    <h1>Magic Math</h1>
+    <header> 
+        <h1>Magic Math</h1> 
+    </header>
 
-    <div class="header">
-        <p id="goalNum">Goal: </p>
+    <main> 
 
-        <!-- <div class="playerStats"> -->
-            <p class="playStats" id="playerWins">Wins: </p>
-            <p class="playStats" id="playerLosses">Losses: </p>
-        <!-- </div> -->
-    </div>
-
-    <div class="numSelect">
-        <button id="button1"></button>
-        <button id="button2"></button>
-        <button id="button3"></button>
-        <button id="button4"></button>
-    </div>
-
-    <div class="operationSelect">
-        <button id="addButton"></button>
-        <button id="subButton"></button>
-        <button id="multButton"></button>
-    </div>
-
-    <div class="workContainer">
-        <h3>Work Area</h3>
-        <p id="workArea"></p>
-    </div>
-
-    <div>
-        <h2 id="instructBox">Let's Play!</h2>
-        <button id="newGameButton">New Game</button>
-    </div>
+        <div id="topHeader">
+            <section id = "goalNum">
+                <h2> Goal: </h2>
+            </section>
     
+            <section id = "playStats"> 
+                <p> Wins: 0 </p>
+                <p> Losses : 0 </p>
+            </section>
+        </div>
+        
+
+
+        <div id="middleContainer">
+            <section id = "numSelect"> 
+                <button id="button1">0</button>
+                <button id="button2">0</button><br>
+                <button id="button3">0</button>
+                <button id="button4">0</button>
+            </section>
+    
+            <section id = "operationSelect"> 
+                <button id="addButton">+</button>
+                <button id="subButton">-</button>
+                <button id="multButton">*</button>
+            </section>
+    
+            <section id = "workContainer">
+               
+                <div> 
+                    <h2> Work Space: </h2>
+                </div>
+            </section>
+        </div>
+        
+
+        <section id = "instructBox">
+            <p> Let's Play! </p>
+        </section>
+
+        <button id="newGameButton">New Game</button>
+
+    </main>
+
+    <footer> 
+        <p> Made by Jamie Liu and Shraddha Hegde </p>
+    </footer>
+
+    <script src="script.js"></script>
+
 </body>
 </html>
-<script src="script.js"></script>

@@ -1,17 +1,121 @@
 body {
+    font-family: "Times New Roman", Times, serif;
+    /* background-color: #b6cdcd; */
+    color: #333;
     margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color:#81cccf;
+    color: black;
+    text-align: center;
+    padding: 20px 0;
 }
 
 h1 {
-    color: white;
-    background-color: yellow;
-    margin-top: 0;
-    padding: 3%;
+    margin: 0;
+    padding: 1%;
+    text-align: center;
 }
 
-.header {
-    display: flex;
+main {
+    padding: 20px;
 }
+
+section {
+    margin-top: 20px;
+}
+
+button {
+    width: 80px;
+    height: 80px;
+    font-size: 16px;
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+footer {
+    text-align: left;
+    padding-left: 20px;
+}
+
+#playStats {
+    display: flex;
+    /* flex-direction: row; */
+    justify-content: flex-end;
+    margin-top: -4%;
+    gap: 5%;
+    margin-right:5%;
+}
+
+#middleContainer {
+    display: flex;
+    /* margin-left: 2%; */
+    align-items: center;
+}
+
+#workContainer {
+    background-color: #81cccf;
+    padding-left: 2%;
+    margin-left: 15%;
+
+    width: 250px;
+    height: 250px;
+}
+
+#numSelect button {
+    width: 100px;
+    height: 100px;
+    background-color: #009688;
+    color: white;
+
+    margin: 10px;
+}
+
+#numSelect button:hover {
+    background-color: #03332c;
+}
+
+#operationSelect {
+    display: flex;
+    flex-direction: column;
+
+    margin-left: 2%;
+}
+
+#operationSelect button {
+    width: 70px;
+    height: 70px;
+    background-color: #50ccc6;
+    color: black;
+
+
+}
+
+#operationSelect button:hover {
+    background-color: #00796b;
+}
+
+#newGameButton {
+    /* width: 100%; */
+    height: 50px;
+    margin-top: 20px;
+    border: none;
+    background-color: #81cccf;
+    color: black;
+    cursor: pointer;
+}
+
+#newGameButton:hover {
+    background-color: #13a6ab; 
+}
+
+
+/* .header {
+    display: flex;
+} */ 
 
 
 
