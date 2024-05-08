@@ -113,14 +113,19 @@ let bruhFinal = 0;
 
 function ButtonClickHandler() {
 
+    if(box1.style.backgroundColor === "lightgrey"){
+        box1.disabled = true;
+        return;
+    }
+    
+
     let input = this.innerText;
     clickedStuff.push(input);
 
     /* if button is a number, then it disables 
     another number being clicked */ 
 
-    
-
+   
 
     if (lastClickedButtonType !== "number") {
 
@@ -131,11 +136,14 @@ function ButtonClickHandler() {
         disableNumberButtons();
         enableOperatorButtons();
 
-        //this.disabled = true;
+        
 
         instructBox.innerText = "Now select an operator";
 
-        this.style.backgroundColor = "lightgray";
+        if(clickedStuff.length === 1){
+            this.style.backgroundColor = "lightgray";
+        }
+        
     
         
 
@@ -157,6 +165,8 @@ function ButtonClickHandler() {
     }
 
     numClicks ++;
+
+
     if(numClicks === 3){
         doResult();
         parseInt(this.innerText = result);
@@ -164,14 +174,14 @@ function ButtonClickHandler() {
 
     //    this.style.backgroundColor = "lightgrey";
     //    for(let button of numButtons){
-    //     if (parseInt(button.innerText) === clickedStuff[0]){
-    //         button.innerText = "FUCKCKCKCKCK";
-    //     }
+    //         button.innerText = "cow";
     // }
 
         eqCounter ++;
     }
-    
+
+
+
 
     if(clickedStuff.length === 3){
         console.log(clickedStuff);
