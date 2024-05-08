@@ -11,6 +11,8 @@ let instructBox = document.getElementById("instructBox");
 
 let newGameButton = document.getElementById("newGameButton");
 
+let numButtons = document.querySelectorAll("numButtons");
+
 box1.addEventListener("click", ButtonClickHandler);
 box2.addEventListener("click", ButtonClickHandler);
 box3.addEventListener("click", ButtonClickHandler);
@@ -105,7 +107,9 @@ let lastClickedButtonType = null;
 
 let clickedStuff = [];
 
-numClicks = 0;
+let numClicks = 0;
+let eqCounter = 0;
+let bruhFinal = 0;
 
 function ButtonClickHandler() {
 
@@ -115,14 +119,25 @@ function ButtonClickHandler() {
     /* if button is a number, then it disables 
     another number being clicked */ 
 
+    
+
+
     if (lastClickedButtonType !== "number") {
+
         let input = this.innerText;
         addToWorkSpace(input);
         lastClickedButtonType = "number";
+
         disableNumberButtons();
         enableOperatorButtons();
 
+        //this.disabled = true;
+
         instructBox.innerText = "Now select an operator";
+
+        this.style.backgroundColor = "lightgray";
+    
+        
 
     } else {
 
@@ -138,19 +153,46 @@ function ButtonClickHandler() {
 
             instructBox.innerText = "Now select a number";
         }
+
     }
 
     numClicks ++;
-    if(numClicks === 3 || numClicks === 5 || numClicks === 7){
+    if(numClicks === 3){
         doResult();
-    }
-    if (numClicks === 7){
-        winLoss();
-    }
+        parseInt(this.innerText = result);
 
+
+    //    this.style.backgroundColor = "lightgrey";
+    //    for(let button of numButtons){
+    //     if (parseInt(button.innerText) === clickedStuff[0]){
+    //         button.innerText = "FUCKCKCKCKCK";
+    //     }
+    // }
+
+        eqCounter ++;
+    }
+    
+
+    if(clickedStuff.length === 3){
+        console.log(clickedStuff);
+        if(eqCounter === 3){
+            bruhFinal = clickedStuff[2];
+            winLoss();
+            return;
+        }
+        clickedStuff = [];
+        lastClickedButtonType = null;
+
+        
+        enableNumberButtons();
+        disableOperatorButtons();
+        instructBox.innerText = "Now select a number";
+
+        numClicks = 0;
+    }
 }
 
-console.log(clickedStuff);
+
 
 //disables the number buttons
 function disableNumberButtons() {
@@ -187,56 +229,80 @@ disableOperatorButtons();
 console.log(clickedStuff);
 console.log(numClicks);
 
+let result = 0;
+
 function doResult() {
-    
-    for (let i = numClicks-2; i < numClicks; i=i+2){
-        let result = 0;
-        if (clickedStuff[i] === "+"){
-            result = parseInt(clickedStuff[i-1]) + parseInt(clickedStuff[i+1]);
-            clickedStuff[i+1] = result;
+   // let lastClickedBox = null;
+
+    for (let i = numClicks - 2; i < numClicks; i = i + 2) {
+        if (clickedStuff[i] === "+") {
+            result = parseInt(clickedStuff[i - 1]) + parseInt(clickedStuff[i + 1]);
+            clickedStuff[i + 1] = result;
             addToWorkSpace("= " + result + "<br>");
-        } else if (clickedStuff[i] === "-"){
-            result = parseInt(clickedStuff[i-1]) - parseInt(clickedStuff[i+1]);
-            clickedStuff[i+1] = result;
+        } else if (clickedStuff[i] === "-") {
+            result = parseInt(clickedStuff[i - 1]) - parseInt(clickedStuff[i + 1]);
+            clickedStuff[i + 1] = result;
             addToWorkSpace("= " + result + "<br>");
         } else {
-            result = parseInt(clickedStuff[i-1]) * parseInt(clickedStuff[i+1]);
-            clickedStuff[i+1] = result;
+            result = parseInt(clickedStuff[i - 1]) * parseInt(clickedStuff[i + 1]);
+            clickedStuff[i + 1] = result;
             addToWorkSpace("= " + result + "<br>");
         }
+
     }
 }
 
 let winCounter = document.getElementById("winCounter");
 let lossCounter = document.getElementById("lossCounter");
+let gameCount = 0;
 
 function winLoss (){
-    let lastResult = clickedStuff[6];
-    if (lastResult == goalNum){
+    console.log(clickedStuff);
+    let lastResult = clickedStuff[2];
+    if (bruhFinal === goalNum){
         winCounter.innerText = parseInt(winCounter.innerText)+1;
         instructBox.innerText = "Yay you won!";
+        gameCount ++;
     } else {
         lossCounter.innerText = parseInt (lossCounter.innerText)+1;
-        instructBox.innerText = "Yay you lost!";
+        instructBox.innerText = "Oops you lost!";
+        gameCount ++;
     }
+
+    disableNumberButtons();
+    disableOperatorButtons();
 }
+
 
 function newGame() {
     clickedStuff = [];
     //numbers = [];
     numClicks = 0;
+    eqCounter = 0;
+    bruhFinal = 0;
 
     instructBox.innerText = "Let's Play!";
 
     let workContainer = document.getElementById ("workContainer");
-    workContainer.innerHTML = "<h2>Worlspace</h2>";
+    workContainer.innerHTML = "<h2>Work Space</h2>";
 
     numbers = generateAndPlaceNumbers();
     goal = calculateGoal(numbers);
     
-    let lastClickedButtonType = null;
-    // enableNumberButtons();
-    // disableOperatorButtons();
-    
+    lastClickedButtonType = null;
+
+    box1.style.backgroundColor = "";
+    box2.style.backgroundColor = "";
+    box3.style.backgroundColor = "";
+    box4.style.backgroundColor = "";
+
+    if (gameCount % 2 === 0){
+        enableNumberButtons();
+        disableOperatorButtons();
+
+    } else {
+        disableOperatorButtons();
+        enableNumberButtons();
+    }
 
 }
