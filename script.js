@@ -1,25 +1,33 @@
+// Jamie Liu
+// Shraddha Hedge
+
+// DOM specifiers for each button
 let box1 = document.getElementById("button1");
 let box2 = document.getElementById("button2");
 let box3 = document.getElementById("button3");
 let box4 = document.getElementById("button4");
 
+// Specifiers for operation
 let addButton = document.getElementById("addButton");
 let subButton = document.getElementById("subButton");
 let multButton = document.getElementById("multButton");
 
+// Instruction box
 let instructBox = document.getElementById("instructBox");
 
+// New Game button
 let newGameButton = document.getElementById("newGameButton");
 
-let numButtons = document.querySelectorAll("numButtons");
-
+// Event listeners
 box1.addEventListener("click", ButtonClickHandler);
 box2.addEventListener("click", ButtonClickHandler);
 box3.addEventListener("click", ButtonClickHandler);
 box4.addEventListener("click", ButtonClickHandler);
 
+//new game event listener
 newGameButton.addEventListener("click", newGame);
 
+//operation event listeners
 addButton.addEventListener("click", ButtonClickHandler);
 subButton.addEventListener("click", ButtonClickHandler);
 multButton.addEventListener("click", ButtonClickHandler);
@@ -30,6 +38,9 @@ function generateRandomNumber() {
     return Math.floor(Math.random() * 10) + 1;
 }
 
+/* 
+Generates and places random numbers and pushes it into the given buttons
+*/
 function generateAndPlaceNumbers() {
     let numbers = [];
 
@@ -45,6 +56,7 @@ function generateAndPlaceNumbers() {
 
 let goalNum = 0;
 
+/* Ensures goal is veritable */
 function calculateGoal(numbers) {
     let operators = ['+', '-', '*'];
 
@@ -67,6 +79,7 @@ function calculateGoal(numbers) {
         equation += " " + operator + " " + numbers[i + 1];
     }
 
+    //iterates through the numbers array and adds random operations
     goalNum = numbers[0];
     for (let i = 0; i < 3; i++) {
         let operator = randomOperators[i];
@@ -85,11 +98,12 @@ function calculateGoal(numbers) {
     let goalElement = document.getElementById("goalNum");
 
     //print it
-    goalElement.innerHTML = "<h2> Goal: " + equation + " = " + goalNum + "</h2>";
+    goalElement.innerHTML = "<h2> Goal: "  + goalNum + "</h2>";
 
     return goalNum;
 }
 
+/* Sets up appeding to work container */
 function addToWorkSpace (input) {
     let workContainer = document.getElementById ("workContainer");
 
@@ -105,47 +119,47 @@ let goal = calculateGoal(numbers);
 //contains the type of the button clicked
 let lastClickedButtonType = null;
 
+//contains all the user inputs, appends later
 let clickedStuff = [];
 
+//how many times the user clicks a button successfully
 let numClicks = 0;
+
+//how many times a full equation is finished
 let eqCounter = 0;
+
+//global var to store final user calculated
 let bruhFinal = 0;
 
+//butten event handler. this handles a lot.
 function ButtonClickHandler() {
 
-    if(box1.style.backgroundColor === "lightgrey"){
-        box1.disabled = true;
-        return;
-    }
-    
-
+// button clicked input goes into cllicked stuff
     let input = this.innerText;
     clickedStuff.push(input);
 
     /* if button is a number, then it disables 
     another number being clicked */ 
 
-   
-
+    //if the previous onclick was an operation
     if (lastClickedButtonType !== "number") {
 
+        //add input to the workspace, set prev to number
         let input = this.innerText;
         addToWorkSpace(input);
         lastClickedButtonType = "number";
 
+        //disable buttons, enable operations
         disableNumberButtons();
         enableOperatorButtons();
 
-        
-
         instructBox.innerText = "Now select an operator";
 
+        //if this was the first number selected, grey out and remove the number
         if(clickedStuff.length === 1){
             this.style.backgroundColor = "lightgray";
+            //this.innerText = "";
         }
-        
-    
-        
 
     } else {
 
@@ -153,51 +167,87 @@ function ButtonClickHandler() {
         another operator being clicked */
 
         if (lastClickedButtonType !== "operator") {
+
+            //add operator to workspace, set prev to operator
             let input = this.innerText;
             addToWorkSpace(input);
             lastClickedButtonType = "operator";
+            
+            //enable all buttons, then disable prev clicked ones 
             enableNumberButtons();
+            if(box1.style.backgroundColor === "lightgray"){
+                box1.disabled = true;
+            }  if (box2.style.backgroundColor === "lightgray"){
+                box2.disabled = true;
+            }  if(box3.style.backgroundColor === "lightgray"){
+                box3.disabled = true;
+            } if(box4.style.backgroundColor === "lightgray"){
+                box4.disabled = true;
+            }
+            
+            //disable all the operator buttons
             disableOperatorButtons();
 
+            //change instructions
             instructBox.innerText = "Now select a number";
         }
 
     }
 
+    //increase number of clicks
     numClicks ++;
-
-
+    
+    //first check if 3 buttons have been clicked
     if(numClicks === 3){
+        //print result
         doResult();
+        // add to the current button
         parseInt(this.innerText = result);
 
-
-    //    this.style.backgroundColor = "lightgrey";
-    //    for(let button of numButtons){
-    //         button.innerText = "cow";
-    // }
-
+        //single equation has passed
         eqCounter ++;
     }
 
-
-
-
+    //if the math array is equal to 3 (yes this is the same thing as checkingnum clicks)
     if(clickedStuff.length === 3){
-        console.log(clickedStuff);
+
+        //if 3 equations have been calculated
         if(eqCounter === 3){
+            //recieve final into global var
             bruhFinal = clickedStuff[2];
+
+            //run win calculation
             winLoss();
+
+            //exit event
             return;
         }
+        //otherwise:
+
+        //clear the current array for next equation
         clickedStuff = [];
+        //reset to the original function
         lastClickedButtonType = null;
 
-        
+        //enable numbers, check for previously clicked numbers
         enableNumberButtons();
+        if(box1.style.backgroundColor === "lightgray"){
+            box1.disabled = true;
+        }  if (box2.style.backgroundColor === "lightgray"){
+            box2.disabled = true;
+        }  if(box3.style.backgroundColor === "lightgray"){
+            box3.disabled = true;
+        } if(box4.style.backgroundColor === "lightgray"){
+            box4.disabled = true;
+        }
+        
+        //disable operations
         disableOperatorButtons();
+
+        //update instructions
         instructBox.innerText = "Now select a number";
 
+        //update number clicked
         numClicks = 0;
     }
 }
@@ -217,7 +267,7 @@ function enableNumberButtons() {
     box1.disabled = false;
     box2.disabled = false;
     box3.disabled = false;
-    box4.disabled = false;
+    box4.disabled = false; 
 }
 
 function disableOperatorButtons() {
@@ -232,17 +282,10 @@ function enableOperatorButtons() {
     multButton.disabled = false;
 }
 
-enableNumberButtons();
-disableOperatorButtons();
-
-
-console.log(clickedStuff);
-console.log(numClicks);
-
+//store result global
 let result = 0;
 
 function doResult() {
-   // let lastClickedBox = null;
 
     for (let i = numClicks - 2; i < numClicks; i = i + 2) {
         if (clickedStuff[i] === "+") {
@@ -267,7 +310,6 @@ let lossCounter = document.getElementById("lossCounter");
 let gameCount = 0;
 
 function winLoss (){
-    console.log(clickedStuff);
     let lastResult = clickedStuff[2];
     if (bruhFinal === goalNum){
         winCounter.innerText = parseInt(winCounter.innerText)+1;
@@ -286,7 +328,6 @@ function winLoss (){
 
 function newGame() {
     clickedStuff = [];
-    //numbers = [];
     numClicks = 0;
     eqCounter = 0;
     bruhFinal = 0;
