@@ -285,18 +285,28 @@ function enableOperatorButtons() {
 //store result global
 let result = 0;
 
+//calculate result
 function doResult() {
 
+    //go to the middle of the array, run less than 3
     for (let i = numClicks - 2; i < numClicks; i = i + 2) {
+        //check each of the operations 
         if (clickedStuff[i] === "+") {
+            //result, add one less than operation and one more than operation idx
             result = parseInt(clickedStuff[i - 1]) + parseInt(clickedStuff[i + 1]);
+            //store in idx 3
             clickedStuff[i + 1] = result;
+            //append to workspace
             addToWorkSpace("= " + result + "<br>");
         } else if (clickedStuff[i] === "-") {
+            //same thing but subtract, check first and last position
             result = parseInt(clickedStuff[i - 1]) - parseInt(clickedStuff[i + 1]);
+            //store result
             clickedStuff[i + 1] = result;
+            //append
             addToWorkSpace("= " + result + "<br>");
         } else {
+            //multiply operator
             result = parseInt(clickedStuff[i - 1]) * parseInt(clickedStuff[i + 1]);
             clickedStuff[i + 1] = result;
             addToWorkSpace("= " + result + "<br>");
@@ -305,53 +315,76 @@ function doResult() {
     }
 }
 
+//set to DOM elements of win/lose counter
 let winCounter = document.getElementById("winCounter");
 let lossCounter = document.getElementById("lossCounter");
+
+//check how many games have 
 let gameCount = 0;
 
+//calculates whether the player wins or loses, compare results
 function winLoss (){
-    let lastResult = clickedStuff[2];
+
+   // let lastResult = clickedStuff[2];
+
+   //check the goal
     if (bruhFinal === goalNum){
+        //change win counter
         winCounter.innerText = parseInt(winCounter.innerText)+1;
+        //change message
         instructBox.innerText = "Yay you won!";
+
+        //inc game count
         gameCount ++;
     } else {
+        //print lose message
         lossCounter.innerText = parseInt (lossCounter.innerText)+1;
         instructBox.innerText = "Oops you lost!";
         gameCount ++;
     }
 
+    //disable all buttons so the user doesn't go crazy
     disableNumberButtons();
     disableOperatorButtons();
 }
 
-
+//new game operations, should reset all values
 function newGame() {
+    //clear num/operations array
     clickedStuff = [];
+    //clear numClicks, number of equations, and the goal global var
     numClicks = 0;
     eqCounter = 0;
     bruhFinal = 0;
 
+    //set back to lets play
     instructBox.innerText = "Let's Play!";
 
+    //change work space to empty, replace h2
     let workContainer = document.getElementById ("workContainer");
     workContainer.innerHTML = "<h2>Work Space</h2>";
 
+    //reset numbers and goal
     numbers = generateAndPlaceNumbers();
     goal = calculateGoal(numbers);
     
+    //set prev to null
     lastClickedButtonType = null;
 
+    //set all the background colors to null to make avail
     box1.style.backgroundColor = "";
     box2.style.backgroundColor = "";
     box3.style.backgroundColor = "";
     box4.style.backgroundColor = "";
 
+    //there was an issue with operations on even an odd games
     if (gameCount % 2 === 0){
+        //for even games enable first
         enableNumberButtons();
         disableOperatorButtons();
 
     } else {
+        //else disable
         disableOperatorButtons();
         enableNumberButtons();
     }
